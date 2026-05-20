@@ -1,0 +1,40 @@
+shortCut: Shift-Y
+description: Copy k9s Link
+scopes:
+  - all
+command: bash
+background: false
+args:
+  - -c
+  - |
+    _NAMESPACE="$NAMESPACE"
+    _POD="$POD"
+    _RESOURCE_NAME="$RESOURCE_NAME"
+    _NAME="$NAME"
+    _CONTEXT="$CONTEXT"
+
+    # When in container view, link to the parent pod instead
+    if [ -n "$_POD" ]; then
+      _RESOURCE_NAME="pods"
+      _NAME="$_POD"
+    fi
+
+    CMD="k9s --context $_CONTEXT"
+    [ -n "$_NAMESPACE" ] && [ "$_NAMESPACE" != "all" ] && CMD="$CMD -n $_NAMESPACE"
+    CMD="$CMD --command \"$_RESOURCE_NAME /$_NAME\""
+
+    echo -e "CONTEXT=$_CONTEXT"
+    echo -e "NAMESPACE=$_NAMESPACE"
+    echo -e "RESOURCE_KIND=$_RESOURCE_NAME"
+    echo -e "RESOURCE_NAME=$_NAME"
+    echo
+    echo -e "k9s link:\n\t$CMD"
+    echo
+
+    if [ "${K9S_LINK_COPY_TO_CLIPBOARD:-true}" = "true" ]; then
+      pbcopy <<< "$CMD"
+      echo "The link has been copied to the clipboard."
+    fi
+
+    echo
+    read -p "Press Enter to return..."

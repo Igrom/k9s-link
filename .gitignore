@@ -1,0 +1,6 @@
+.DS_Store
+*.elc
+.projectile
+.projectile-cache.eld
+\#*#
+*~

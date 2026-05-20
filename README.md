@@ -30,6 +30,11 @@ k9s link:
         k9s --context docker-rancher -n website --command "pods /website-67d9876ffc-7zjlw"
 ```
 
+Running the command in your terminal should reproduce the view (except for containers: in that case, the view is scoped to the pod).
+
 ## Configuration
 ### K9S_LINK_COPY_TO_CLIPBOARD: disabling copy-to-clipboard
 You can disable automatic copying to clipboard (useful if you're not using a clipboard manager) by setting the environment variable `K9S_LINK_COPY_TO_CLIPBOARD` to `false`.
+
+## License
+GPL-3.0
